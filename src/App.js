@@ -52,7 +52,7 @@ class App extends Component {
                             </div>
 
                             <button type="submit" className="waves-effect waves-light btn">
-                                Weather?
+                                Quelle ligne?
                             </button>
 
                         </form>
@@ -69,58 +69,33 @@ class App extends Component {
             </div>
         )
     }
-
-
-
     handleChange = ( event ) => {
         this.setState( {
             city: event.target.value
         } )
     }
-
-
     //method triggered by onSubmit event of the form or by onClick event of the "Weather?" button
     /* Arrow function syntax used for Autobinding, see details here : https://facebook.github.io/react/docs/react-without-es6.html#autobinding */
     fetchWeather = async ( event ) => {
-
         event.preventDefault()
-
         /* ASYNC - AWAIT DOCUMENTATION : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Op%C3%A9rateurs/await */
-
-        try {
-            let weather = await get( ENDPOINTS.WEATHER_API_URL, {
-                //YOU NEED TO PROVIDE YOUR "APIXU" API KEY HERE, see /utils/api.js file to grab the DOCUMENTATION file
-                key: '07fb607594c34e5b9ca213416172302',
-                q: this.state.city
-            } )
-
-            //checking that we received a well-formated weather object
-            if ( weather.current ) {
-                //weather data is now received from the server thanks to async-await
-                let updatedWeatherWithImage = await this.fetchPicture( weather )
-
-                /* React state DOCUMENTATION : https://facebook.github.io/react/docs/lifting-state-up.html */
-                this.setState( {
-                    weather: updatedWeatherWithImage
-                } )
-            }
-            //handling error
-            else {
-                console.log( weather )
-                //weather will contain an error object (see APIXU DOCUMENTATION)
-                Materialize.toast( weather.error.message, 8000, 'error-toast' )
-                //Using Materialize toast component to display error messages - see http://materializecss.com/dialogs.html
-            }
-
-
-        }
-        catch ( error ) {
-            Materialize.toast( error, 8000, 'error-toast' )
-            console.log( 'Failed fetching data: ', error )
-        }
-
+            var request = require('request-promise');
+            var option = {
+              headers: {'X-Auth-Token': '4d453a8d-b491-4b59-a572-cf61f9c83cec'},
+              url: 'https://api.sncf.com/v1/coverage/sncf/places?q='+'cityInput',
+              dataType: 'json',
+              type: 'get',
+            };
+            request.get(option).then(function(body){
+              var lines = JSON.parse(body);
+              console.log(lines);
+              /*var $ul = $('ul#lines');
+              $.each(body.lines, function (i, line) {
+  	          var $li = $('<li>');
+              $li.html('('+line.network.name+' '+line.commercial_mode.name+') '+line.name);
+              $ul.append($li);*/
+            });
     }
-
     //will fetch a picture with the name of the city fetched by the weather API
     //will return an updated weather object (same object + one image)
     fetchPicture = async ( weather ) => {
@@ -211,8 +186,8 @@ class App extends Component {
         }
 
         return null
-    }
-
+    }	
 }
+
 
 export default App
