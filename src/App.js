@@ -52,7 +52,7 @@ class App extends Component {
                             </div>
 
                             <button type="submit" className="waves-effect waves-light btn">
-                                Quelle ligne?
+                                Quelle Station?
                             </button>
 
                         </form>
@@ -65,7 +65,8 @@ class App extends Component {
                         </div>
                     </div>
                 </div>
-
+			    <h2>Lines available:</h2>
+                <ul id="lines"></ul>
             </div>
         )
     }
@@ -82,13 +83,18 @@ class App extends Component {
             var request = require('request-promise');
             var option = {
               headers: {'X-Auth-Token': '4d453a8d-b491-4b59-a572-cf61f9c83cec'},
-              url: 'https://api.sncf.com/v1/coverage/sncf/places?q='+'cityInput',
+              url: ' https://api.sncf.com/v1/coverage/sncf/places?q='+this.state.city,
               dataType: 'json',
               type: 'get',
             };
             request.get(option).then(function(body){
-              var lines = JSON.parse(body);
-              console.log(lines);
+              var line = JSON.parse(body);
+              console.log(line["places"]);
+			  for (var i=0 ; i < line["places"].length ; i++)
+			  {				 
+				  document.getElementById("lines").innerHTML += line["places"][i].name;
+				  document.getElementById("lines").innerHTML += " , ";
+			  }
               /*var $ul = $('ul#lines');
               $.each(body.lines, function (i, line) {
   	          var $li = $('<li>');
@@ -124,8 +130,7 @@ class App extends Component {
         catch ( error ) {
 
             weather.pixabayPicture = defaultPicture
-
-            Materialize.toast( error, 8000, 'error-toast' )
+            Materialize.toast(error, 8000, 'error-toast' )
             console.log( 'Failed fetching picture: ', error )
         }
 
