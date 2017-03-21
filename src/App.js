@@ -65,7 +65,7 @@ class App extends Component {
                         </div>
                     </div>
                 </div>
-			    <h2>Lines available:</h2>
+			    <h2>Stations available:</h2>
                 <ul id="lines"></ul>
             </div>
         )
@@ -89,11 +89,13 @@ class App extends Component {
             };
             request.get(option).then(function(body){
               var line = JSON.parse(body);
-              console.log(line["places"]);
+              //console.log(line["places"]);
+			  document.getElementById("lines").innerHTML = "";
 			  for (var i=0 ; i < line["places"].length ; i++)
 			  {				 
-				  document.getElementById("lines").innerHTML += line["places"][i].name;
-				  document.getElementById("lines").innerHTML += " , ";
+				  document.getElementById("lines").innerHTML += line["places"][i].name+"<br />";
+				  //document.getElementById("lines").innerHTML += "/r";
+				  //lines.append(line["places"][i].name+</br>)
 			  }
               /*var $ul = $('ul#lines');
               $.each(body.lines, function (i, line) {
