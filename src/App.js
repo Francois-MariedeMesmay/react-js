@@ -94,14 +94,7 @@ class App extends Component {
 			  for (var i=0 ; i < line["places"].length ; i++)
 			  {				 
 				  document.getElementById("lines").innerHTML += line["places"][i].name+"<br />";
-				  //document.getElementById("lines").innerHTML += "/r";
-				  //lines.append(line["places"][i].name+</br>)
 			  }
-              /*var $ul = $('ul#lines');
-              $.each(body.lines, function (i, line) {
-  	          var $li = $('<li>');
-              $li.html('('+line.network.name+' '+line.commercial_mode.name+') '+line.name);
-              $ul.append($li);*/
             });
     }
     //will fetch a picture with the name of the city fetched by the weather API
